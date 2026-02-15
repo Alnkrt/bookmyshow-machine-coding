@@ -3,14 +3,14 @@ from time import sleep
 
 from fastapi import FastAPI
 
-from app.schemas.schemas import Movies
+from app.models import Movies
 from app.services.services import *
 
 app = FastAPI()
 
 from datetime import datetime, timedelta
 # Import your Models & Enums
-from app.schemas.schemas import (
+from app.models import (
     Theatre, Screen, Movies, Shows, Seats, SeatBooking,
     SeatType, SeatStatus, Ticket
 )
@@ -146,7 +146,7 @@ def load_data_classes():
 
                     global_show_counter += 1
 
-    print("✅ Data Loaded Successfully via Pydantic Classes!")
+    print("Data Loaded Successfully via Pydantic Classes!")
 
 
 # --- 2. DRIVER CODE (The User Simulation) ---
@@ -158,7 +158,7 @@ def driver():
     try:
         # Step 1: Search by City
         user_city = "Bangalore"
-        print(f"🔍 1. User searches for theatres in '{user_city}'")
+        print(f" 1. User searches for theatres in '{user_city}'")
 
         # (Assuming you fixed the repo access in get_theatre_by_city)
         # Note: calling your functions from previous prompt
@@ -168,7 +168,7 @@ def driver():
 
         # Step 2: Search Movies
         movie_query = "Inception"
-        print(f"\n🔍 2. User searches for movie '{movie_query}'")
+        print(f"\n 2. User searches for movie '{movie_query}'")
         shows = get_shows_by_movie(user_city, movie_query)
 
         if not shows:
@@ -179,7 +179,7 @@ def driver():
         print(f"   Selected Show: {selected_show['id']} (Starts: {selected_show['start_time']})")
 
         # Step 3: View Seats
-        print(f"\n🎫 3. Fetching available seats for Show {selected_show['id']}...")
+        print(f"\n 3. Fetching available seats for Show {selected_show['id']}...")
         available_seats = get_seats_by_show(selected_show['id'])
         print(f"   {len(available_seats)} seats available.")
 
@@ -188,30 +188,30 @@ def driver():
         print(f"   User selects seats: {seats_to_book}")
 
         # Step 4: Lock Seats
-        print(f"\n🔒 4. Locking seats {seats_to_book}...")
+        print(f"\n 4. Locking seats {seats_to_book}...")
         lock_seat(selected_show['id'], seats_to_book)
-        print("   ✅ Seats Locked Successfully!")
+        print("    Seats Locked Successfully!")
 
         # Step 5: Book (Confirm) Ticket
-        print(f"\n💳 5. Simulating Payment & Confirmation...")
+        print(f"\n 5. Simulating Payment & Confirmation...")
         sleep(1)  # Dramatic pause
 
         success = book_ticket(selected_show['id'], seats_to_book)
         if success:
-            print("   🎉 TICKET BOOKED! Enjoy the movie.")
+            print(" TICKET BOOKED! Enjoy the movie.")
 
         # Step 6: Verify Persistence (Double Check)
-        print("\n🕵️ 6. verifying seat status in DB...")
+        print("\n 6. verifying seat status in DB...")
         updated_seats = get_seats_by_show(selected_show['id'])
         # These seats should NO LONGER be available
         still_avail = [s['seat_id'] for s in updated_seats if s['seat_id'] in seats_to_book]
         if not still_avail:
-            print("   ✅ Verification Passed: Seats are no longer available for others.")
+            print(" Verification Passed: Seats are no longer available for others.")
         else:
-            print(f"   ❌ Verification Failed: Seats {still_avail} are still showing as available!")
+            print(f" Verification Failed: Seats {still_avail} are still showing as available!")
 
     except Exception as e:
-        print(f"\n❌ CRITICAL ERROR: {str(e)}")
+        print(f"\nCRITICAL ERROR: {str(e)}")
         traceback.print_exc()
 
 

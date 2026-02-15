@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
 
 from app.db.db import theatre_city_index
-from app.repositories.repository import TheaterRepository, ShowRepository, MovieRepository, TicketRepository, \
+from app.repositories import TheaterRepository, ShowRepository, MovieRepository, TicketRepository, \
     ScreenRepository, SeatRepository, SeatBookingRepository
-from app.schemas.schemas import SeatStatus, Seats, SeatBooking
+from app.models import SeatStatus, Seats, SeatBooking
 
 theatre_obj = TheaterRepository()
 shows_obj = ShowRepository()

@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import Dict
 
-from app.schemas.schemas import Movies, Theatre, Shows, Seats, Ticket, Screen, SeatBooking
+from app.models import Movies, Theatre, Shows, Seats, Ticket, Screen, SeatBooking
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
